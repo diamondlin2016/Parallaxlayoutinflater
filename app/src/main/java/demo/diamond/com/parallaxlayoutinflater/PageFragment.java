@@ -2,7 +2,6 @@ package demo.diamond.com.parallaxlayoutinflater;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,19 +26,25 @@ public class PageFragment extends Fragment implements ParallaxViewImp{
     private List<View> parallaxViews = new ArrayList<>();
 
 
+    public static PageFragment newInstance(int resId) {
+        Bundle bd = new Bundle();
+        bd.putInt("layoutId",resId);
+        PageFragment fragment = new PageFragment();
+        fragment.setArguments(bd);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater original, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle args = getArguments();
         int layoutId = args.getInt("layoutId");
-        int index = args.getInt("index");
-        Log.d("jason", "fragment:"+index);
         //1.布局加载器将布局加载进来了
         //2.解析创建布局上所有的视图
         //3.自己搞定创建视图的过程
         //4.获取视图相关的自定义属性的值
-//        ParallaxLayoutInflater inflater = new ParallaxLayoutInflater(original, getActivity(),this);
-        return original.inflate(layoutId, null);
+        ParallaxLayoutInflater parallaxLayoutInflater = new ParallaxLayoutInflater(original, getActivity(), this);
+        return parallaxLayoutInflater.inflate(layoutId, null);
     }
 
 
